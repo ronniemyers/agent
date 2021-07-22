@@ -1,14 +1,14 @@
-import React from "react";
-import { useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import Error from "./Error";
-import { LogoSvg } from "./svg/LogoSvg";
 
-// const user = null;
-const user = {};
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import AuthContext from "../AuthContext";
+import Error from "./Error";
 
 function NavBar() {
+  const auth = useContext(AuthContext);
+
   return (
+    <div>
     <div className="item3">
       <div className="flex-container button-flex">
         <Link to="/" className="btn">
@@ -20,7 +20,7 @@ function NavBar() {
         <Link to="/add" className="btn">
           <i>Add Agents</i>
         </Link>
-        {!user && (
+        {!auth && (
           <div>
             <Link to="/register" className="btn">
               <i>Register</i>
@@ -30,7 +30,7 @@ function NavBar() {
             </Link>
           </div>
         )}
-        {user && (
+        {auth && (
           <div>
             <div>
               <Link to="/login" className="btn">
@@ -40,6 +40,7 @@ function NavBar() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { LogoSvg } from "./svg/LogoSvg";
+import { Link, useParams } from "react-router-dom";
+import Header from "./Header";
+import NavBar from "./NavBar";
 
 const DEFAULT_BUTTON = {
   deleteBtn: "Delete",
@@ -9,9 +10,12 @@ const DEFAULT_BUTTON = {
 };
 
 function DeleteAgent() {
+  const { id } = useParams();
+  let agentData = {};
+  const [agents, setAgents] = useState([]);
   const [deleteMsg, setDeleteMsg] = useState("Are you sure?");
-
   const [defaultBtn, setDefaultBtn] = useState(DEFAULT_BUTTON);
+
   const deleteAgentConfirmHandler = (event) => {
     event.preventDefault();
 
@@ -19,18 +23,19 @@ function DeleteAgent() {
       method: "DELETE",
     };
 
-    fetch(`http://localhost:8080/api/agent/${agentId}`, init)
+    fetch(`http://localhost:8080/api/agent/${id}`, init)
       .then((response) => {
         if (response.status === 204) {
-          getAgents();
+          agentData = response.json;
+          return agentData;
         } else if (response.status === 404) {
-          Promise.reject(`Agent ID ${agentId} not found`);
+          Promise.reject(`Agent ID ${id} not found`);
         } else {
           Promise.reject("Something unexpected went wrong");
         }
       })
       .catch((error) => console.log(error));
-    setDeleteMsg(agentId + " has been deleted!");
+    setDeleteMsg(`${id} has been deleted!`);
     setDefaultBtn("", "");
   };
 
@@ -39,14 +44,8 @@ function DeleteAgent() {
       <div className="grid-container">
         <header>
           <div className="item1">
-            <div className="flex-container">
-              <Link to="/register">Register</Link>
-              <Link to="/">
-                <LogoSvg />
-              </Link>
-              <Link to="/login">Login</Link>
-            </div>
-            <h1>Delete Agent</h1>
+            <Header />
+            <h1>Delete Agent {id}</h1>
           </div>
         </header>
         <div>
@@ -68,60 +67,19 @@ function DeleteAgent() {
                     >
                       {defaultBtn.deleteBtn}
                     </button>
-                    <button onClick={cancelClickHandler} className="deleteBtn">
+                    <Link to="/agents" className="deleteBtn">
                       {defaultBtn.cancelBtn}
-                    </button>
-                    <label htmlFor="3">Exit</label>
+                    </Link>
+                    <label className="exit" htmlFor="3">
+                      Exit
+                    </label>
                   </div>
                 </div>
               </div>
             </div>
           </main>
-          <section>
-            <div className="item2">
-              {findAgent().map((agent) => {
-                return (
-                  <div key={agent.agentId}>
-                    <div className="flex-container">
-                      <div className="data">
-                        <p>{agent.agentId}</p>
-                        <p className="field">First name</p>
-                        <p>{agent.firstName}</p>
-                        <p className="field">Middle name</p>
-                        <p>{agent.middleName}</p>
-                        <p className="field">Last name</p>
-                        <p>{agent.lastName}</p>
-                        <p className="field">Date of birth</p>
-                        <p>{agent.dob}</p>
-                        <p className="field">Height (inches)</p>
-                        <p>{agent.heightInInches}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
           <nav>
-            <div className="item3">
-              <div className="flex-container button-flex">
-                <Link to="/" className="btn">
-                  <i>Home</i>
-                </Link>
-                <Link to="/agents" className="btn">
-                  <i>All Agents</i>
-                </Link>
-                <Link to="/add" className="btn">
-                  <i>Add Agents</i>
-                </Link>
-                <Link to="/register" className="btn">
-                  <i>Register</i>
-                </Link>
-                <Link to="/login" className="btn">
-                  <i>Login</i>
-                </Link>
-              </div>
-            </div>
+            <NavBar />
           </nav>
           <footer>
             <div className="item4">

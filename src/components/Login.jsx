@@ -1,8 +1,9 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import Error from "./Error";
-import { LogoSvg } from "./svg/LogoSvg";
+import Header from "./Header";
+import AuthContext from '../AuthContext';
 import NavBar from "./NavBar";
 
 const DEFAULT_FORM_AGENT = {
@@ -12,11 +13,13 @@ const DEFAULT_FORM_AGENT = {
 };
 
 function Login() {
-  // const history = useHistory();
+  const history = useHistory();
   const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+
+  const auth = useContext(AuthContext);
 
   const formInputOnChangeHandler = (event) => {
     const nextAgent = { ...formAgent };
@@ -26,7 +29,7 @@ function Login() {
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    //   history.push("/");
+    history.push("/");
   };
 
   return (
@@ -34,12 +37,7 @@ function Login() {
       <div className="grid-container">
         <header>
           <div className="item1">
-            <div className="flex-container">
-              <Link to="/">
-                <LogoSvg />
-              </Link>
-            </div>
-            <p className="text-center username"> Username [citadelhell]</p>
+            <Header />
             <h1>Login</h1>
           </div>
         </header>
@@ -77,7 +75,7 @@ function Login() {
             <Error errors={errors} />
           </main>
           <nav>
-            <NavBar />
+            <NavBar/>
           </nav>
           <footer>
             <div className="item4">

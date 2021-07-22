@@ -1,15 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { LogoSvg } from "./svg/LogoSvg";
-import { EditSvg } from "./svg/EditSvg";
-import { DeleteSvg } from "./svg/DeleteSvg";
+import Header from "./Header";
 import NavBar from "./NavBar";
-
-// const DEFAULT_BUTTON = {
-//   deleteBtn: "Delete",
-//   cancelBtn: "Cancel",
-// };
 
 function AllAgents() {
   const [agents, setAgents] = useState([]);
@@ -21,23 +14,12 @@ function AllAgents() {
       .catch((error) => console.log(error));
   }, []);
 
-  // function findAgent() {
-  //   const newAgents = [...agents];
-  //   const removeAgent = newAgents.filter((a) => a.agentId === agentId);
-  //   return removeAgent;
-  // }
-
   return (
     <div>
       <div className="grid-container">
         <header>
           <div className="item1">
-            <div className="flex-container">
-              <Link to="/">
-                <LogoSvg />
-              </Link>
-            </div>
-            <p className="text-center username"> Username [citadelhell]</p>
+            <Header />
             <h1>All Agents</h1>
           </div>
         </header>
@@ -62,12 +44,8 @@ function AllAgents() {
                           <p className="field">Height (inches)</p>
                           <p>{agent.heightInInches}</p>
                           <div className="flex-container svgIcon">
-                            <Link to={`/edit/${agent.agentId}`}>
-                              <EditSvg />
-                            </Link>
-                            <Link to="/delete/:id">
-                              <DeleteSvg />
-                            </Link>
+                            <Link to={`/edit/${agent.agentId}`}>edit</Link>
+                            <Link to={`/delete/${agent.agentId}`}>delete</Link>
                           </div>
                         </div>
                       </div>

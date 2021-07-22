@@ -1,9 +1,8 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Error from "./Error";
+import Header from "./Header";
 import NavBar from "./NavBar";
-import { LogoSvg } from "./svg/LogoSvg";
 
 const DEFAULT_FORM_AGENT = {
   agentId: 0,
@@ -16,17 +15,17 @@ const DEFAULT_FORM_AGENT = {
   aliases: [],
 };
 
-function FormAgent() {
-  // const { id } = useParams();
-  // console.log("agentId: " + id);
-  // const history = useHistory();
+function AddAgent() {
+  const history = useHistory();
   const [errors, setErrors] = useState([]);
-  const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
-  const [promptForm, setPromptForm] = useState("Add");
-  const [agentId, setAgentId] = useState(formAgent); // remove
 
-  // add
-  //why doesnt add not use useEffect?
+  const formInputOnChangeHandler = (event) => {
+    const nextAgent = { ...formAgent };
+    nextAgent[event.target.name] = event.target.value;
+    setFormAgent(nextAgent);
+  };
+
+  const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
   const addFormSubmitHandler = (event) => {
     event.preventDefault();
     const init = {
@@ -46,7 +45,7 @@ function FormAgent() {
       })
       .then((data) => {
         if (data.agentId) {
-          // history.push("/agents");
+          history.push("/agents");
         } else {
           setErrors("Error: " + data + " ");
         }
@@ -54,60 +53,19 @@ function FormAgent() {
       .catch((error) => console.log(error));
   };
 
-  // edit
-  useEffect(() => {
-    fetch(`http://localhost:8080/api/agent/${agentId}`) // change to id
-      .then((response) => {
-        if (response.status === 204) {
-          return null;
-        } else if (response.status === 400) {
-          return response.json();
-        }
-        return Promise.reject("Something unexpected went wrong");
-      })
-      .then((data) => {
-        setFormAgent(data);
-        if (!data) {
-          setErrors("Error: " + data + " ");
-        }
-      })
-      .catch((error) => console.log(error));
-  }, [agentId]); // change to id
-
-  const editFormSubmitHandler = (event) => {
-    event.preventDefault();
-  };
-
-  const formInputOnChangeHandler = (event) => {
-    const nextAgent = { ...formAgent };
-    nextAgent[event.target.name] = event.target.value;
-    setFormAgent(nextAgent);
-  };
-
   return (
     <div>
       <div className="grid-container">
         <header>
           <div className="item1">
-            <div className="flex-container">
-              <Link to="/">
-                <LogoSvg />
-              </Link>
-            </div>
-            <p className="text-center username"> Username [citadelhell]</p>
-            <h1>{promptForm} Agents</h1>
+            <Header />
+            <h1>Add Agent</h1>
           </div>
         </header>
         <div>
           <main>
             <div className="flex-container">
-              <form
-                onSubmit={
-                  promptForm === "Add"
-                    ? addFormSubmitHandler
-                    : editFormSubmitHandler
-                }
-              >
+              <form onSubmit={addFormSubmitHandler}>
                 <div className="form-agent">
                   <label htmlFor="firstName">First name</label>
                   <input
@@ -175,7 +133,7 @@ function FormAgent() {
             <Error errors={errors} />
           </main>
           <nav>
-            <NavBar />
+            <NavBar/>
           </nav>
           <footer>
             <div className="item4">
@@ -188,4 +146,4 @@ function FormAgent() {
   );
 }
 
-export default FormAgent;
+export default AddAgent;
