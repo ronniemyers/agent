@@ -19,14 +19,11 @@ function NavBar() {
       )}
       {auth.user && (
         <div className="flex-container button-flex">
-          <Link to="/" className="btn">
-            <i>Home</i>
-          </Link>
           <Link to="/agents" className="btn">
             <i>All Agents</i>
           </Link>
           <Link to="/add" className="btn">
-            <i>Add Agents</i>
+            <i>Add Agent</i>
           </Link>
           <Link to="/login" className="btn" onClick={() => auth.logout()}>
             <i>Logout</i>

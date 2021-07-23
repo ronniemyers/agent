@@ -119,7 +119,7 @@ function Register() {
                   />
                 </div>
                 <div className="form-agent flex-container">
-                  <input type="submit" value="Login"></input>
+                  <input type="submit" value="Register"></input>
                 </div>
               </form>
             </div>

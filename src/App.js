@@ -15,7 +15,6 @@ import NotFound from './components/NotFound';
 
 const TOKEN_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZXYxMC11c2Vycy1hcGkiLCJzdWIiOiJyb25uaWVteWVycyIsImlkIjoiYzMxZDM0YzQtYjY5YS00ZDU4LWFlNmItYmU0ZjE2YzcyNzQyIiwicm9sZXMiOiJVU0VSIiwiZXhwIjoxNjI3MDA3NTYxfQ.FL0fLYpDX2jKU00lfx3jzXMdBJYTFs85QNuzxccVa3k";
 
-
 function App() {
   const [user, setUser] = useState(null);
   const [initialized, setInitialized] = useState(false);
@@ -57,7 +56,7 @@ function App() {
   };
 
   const auth = {
-    user: user ? { ...user } : "",
+    user: user ? { ...user } : null,
     login,
     logout
   };
