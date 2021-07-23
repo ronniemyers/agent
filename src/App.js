@@ -26,7 +26,6 @@ function App() {
     if (token) {
       login(token);
     }
-
     setInitialized(true);
   }, []);
 

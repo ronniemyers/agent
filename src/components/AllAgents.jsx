@@ -14,15 +14,16 @@ function AllAgents() {
     /*
     GET http://localhost:8080/api/agent HTTP/1.1
     Authorization: Bearer {{token}}
+    
     */
 
     const init = {
       headers: {
-        'Authorization': `Bearer ${token}`
+        "Authorization": `Bearer ${token}`,
       }
     }
 
-    fetch('http://localhost:8080/api/agent', init)
+    fetch("http://localhost:8080/api/agent", init)
       .then(response => response.json())
       .then(data => setAgents(data))
       .catch(error => console.log(error));
@@ -31,8 +32,6 @@ function AllAgents() {
   useEffect(() => {
     getAgents(auth.user.token);
   }, [auth.user.token]);
-
-  console.log(auth.user.token);
 
   return (
     <div>
