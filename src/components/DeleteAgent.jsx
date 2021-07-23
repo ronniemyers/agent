@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext, useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import Header from "./Header";
 import NavBar from "./NavBar";
@@ -19,7 +19,7 @@ function DeleteAgent() {
   const [defaultBtn, setDefaultBtn] = useState(DEFAULT_BUTTON);
   const [errors, setErrors] = useState([]);
 
-  const getAgent = () => {
+  useEffect(() => {
     const init = {
       headers: {
         Authorization: `Bearer ${auth.user.token}`,
@@ -29,22 +29,17 @@ function DeleteAgent() {
     fetch(`http://localhost:8080/api/agent/${id}`, init)
       .then((response) => {
         if (response.status === 200) {
-          const filter = response.json();
-          return filter;
-        } else {
-          return Promise.reject("Something unexpected went wrong");
+          return response.json();
         }
+        return Promise.reject(`Received 400 Agent ID: ${id}`);
       })
       .then((data) => {
-        if (data.agentId) {
-          setAgents(data);
-        } else {
-          setErrors(["Failed to fetch user..."]);
-        }
+        setAgents(data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-  };
-
-  getAgent();
+  }, [id, auth.user.token]);
 
   const deleteAgentConfirmHandler = () => {
     const init = {

@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import Error from "./Error";
 import Header from "./Header";
 import NavBar from "./NavBar";
+import AuthContext from "../AuthContext";
 
 const DEFAULT_FORM_AGENT = {
   agentId: 0,
@@ -16,26 +17,39 @@ const DEFAULT_FORM_AGENT = {
 };
 
 function EditAgent() {
+  const auth = useContext(AuthContext);
   const history = useHistory();
   const { id } = useParams();
   const [errors, setErrors] = useState([]);
   const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/agent/${id}`)
+    const init = {
+      headers: {
+        Authorization: `Bearer ${auth.user.token}`,
+      },
+    };
+
+    fetch(`http://localhost:8080/api/agent/${id}`, init)
       .then((response) => {
-        if (response.status === 400) {
-          return Promise.reject(`Received 400 Agent ID: ${id}`);
+        if (response.status === 204) {
+          return null;
+        } else if (response.status === 400) {
+          return response.json();
         }
-        return response.json();
+        return Promise.reject("Something unexpected went wrong");
       })
       .then((data) => {
-        setFormAgent(data);
+        if (data.firstName) {
+          setErrors("Error: " + data + " ");
+        } else {
+          setFormAgent(data);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [id]);
+  }, [id, auth.user.token]);
 
   const editFormSubmitHandler = (event) => {
     event.preventDefault();
@@ -43,13 +57,16 @@ function EditAgent() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${auth.user.token}`
       },
       body: JSON.stringify(formAgent),
     };
 
     fetch(`http://localhost:8080/api/agent/${id}`, init)
       .then((response) => {
-        if (response.status === 400) {
+        if (response.status === 204) {
+          return null;
+        } else if (response.status === 400) {
           return response.json();
         }
         return Promise.reject("Something unexpected went wrong");
