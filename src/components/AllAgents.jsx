@@ -1,12 +1,13 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import Header from "./Header";
-import NavBar from "./NavBar";
-import AuthContext from "../AuthContext";
+import Header from "./utils/Header";
+import NavBar from "./utils/NavBar";
+import AuthContext from "../AuthContext.js";
+import MapAgent from "./utils/MapAgent";
 
 function AllAgents() {
   const [agents, setAgents] = useState([]);
+  const [errors] = useState([]);
   const auth = useContext(AuthContext);
 
   const getAgents = (token) => {
@@ -39,31 +40,9 @@ function AllAgents() {
           <main>
             <div className="item2">
               <div className="agent_grid">
-                {agents.map((agent) => {
-                  return (
-                    <div key={agent.agentId}>
-                      <div className="flex-container">
-                        <div className="data">
-                          <p>{agent.agentId}</p>
-                          <p className="field">First name</p>
-                          <p>{agent.firstName}</p>
-                          <p className="field">Middle name</p>
-                          <p>{agent.middleName}</p>
-                          <p className="field">Last name</p>
-                          <p>{agent.lastName}</p>
-                          <p className="field">Date of birth</p>
-                          <p>{agent.dob}</p>
-                          <p className="field">Height (inches)</p>
-                          <p>{agent.heightInInches}</p>
-                          <div className="flex-container svgIcon">
-                            <Link to={`/edit/${agent.agentId}`}>edit</Link>
-                            <Link to={`/delete/${agent.agentId}`}>delete</Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                <section>
+                  <MapAgent agents={agents} errors={errors} mapAll={true} />
+                </section>
               </div>
             </div>
           </main>
