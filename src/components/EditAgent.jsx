@@ -32,19 +32,13 @@ function EditAgent() {
 
     fetch(`http://localhost:8080/api/agent/${id}`, init)
       .then((response) => {
-        if (response.status === 204) {
-          return null;
-        } else if (response.status === 400) {
-          return response.json();
+        if (response.status === 404) {
+          return Promise.reject(`Received 404 Not Found for Agent ID: ${id}`);
         }
-        return Promise.reject("Something unexpected went wrong");
+        return response.json();
       })
       .then((data) => {
-        if (data.firstName) {
-          setErrors("Error: " + data + " ");
-        } else {
-          setFormAgent(data);
-        }
+        setFormAgent(data);
       })
       .catch((error) => {
         console.log(error);

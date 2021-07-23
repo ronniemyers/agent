@@ -40,9 +40,7 @@ function AllAgents() {
           <main>
             <div className="item2">
               <div className="agent_grid">
-                <section>
-                  <MapAgent agents={agents} errors={errors} mapAll={true} />
-                </section>
+                <MapAgent agents={agents} errors={errors} mapAll={true} />
               </div>
             </div>
           </main>

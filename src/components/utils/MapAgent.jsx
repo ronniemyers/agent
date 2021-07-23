@@ -3,8 +3,7 @@ import Error from "./Error";
 
 function MapAgent({ agents, errors, mapAll }) {
   return (
-    <div className="item2">
-
+    <>
       {agents.map((agent) => {
         return (
           <div key={agent.agentId}>
@@ -33,7 +32,7 @@ function MapAgent({ agents, errors, mapAll }) {
           </div>
         );
       })}
-    </div>
+    </>
   );
 }
 
