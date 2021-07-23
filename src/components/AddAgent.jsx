@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Error from "./Error";
 import Header from "./Header";
 import NavBar from "./NavBar";
+import AuthContext from "../AuthContext";
 
 const DEFAULT_FORM_AGENT = {
   agentId: 0,
@@ -16,6 +17,7 @@ const DEFAULT_FORM_AGENT = {
 };
 
 function AddAgent() {
+  const auth = useContext(AuthContext);
   const history = useHistory();
   const [errors, setErrors] = useState([]);
 
@@ -28,10 +30,12 @@ function AddAgent() {
   const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
   const addFormSubmitHandler = (event) => {
     event.preventDefault();
+
     const init = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${auth.user.token}`
       },
       body: JSON.stringify(formAgent),
     };
@@ -135,7 +139,7 @@ function AddAgent() {
             <Error errors={errors} />
           </main>
           <nav>
-            <NavBar/>
+            <NavBar />
           </nav>
           <footer>
             <div className="item4">

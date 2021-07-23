@@ -1,8 +1,9 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import Header from "./Header";
 import NavBar from "./NavBar";
+import AuthContext from '../AuthContext';
 
 const DEFAULT_BUTTON = {
   deleteBtn: "Delete",
@@ -10,6 +11,7 @@ const DEFAULT_BUTTON = {
 };
 
 function DeleteAgent() {
+  const auth = useContext(AuthContext);
   const { id } = useParams();
   let agentData = {};
   const [agents, setAgents] = useState([]);
@@ -21,13 +23,15 @@ function DeleteAgent() {
 
     const init = {
       method: "DELETE",
+      headers: {
+        'Authorization': `Bearer ${auth.user.token}`
+      }
     };
 
     fetch(`http://localhost:8080/api/agent/${id}`, init)
       .then((response) => {
         if (response.status === 204) {
-          agentData = response.json;
-          return agentData;
+          return response.json;
         } else if (response.status === 404) {
           Promise.reject(`Agent ID ${id} not found`);
         } else {

@@ -3,25 +3,23 @@ import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import NavBar from "./NavBar";
-import AuthContext from '../AuthContext';
-
+import AuthContext from "../AuthContext";
 
 function AllAgents() {
   const [agents, setAgents] = useState([]);
   const auth = useContext(AuthContext);
 
   const getAgents = (token) => {
-
     const init = {
       headers: {
-        "Authorization": `Bearer ${token}`,
-      }
-    }
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     fetch("http://localhost:8080/api/agent", init)
-      .then(response => response.json())
-      .then(data => setAgents(data))
-      .catch(error => console.log(error));
+      .then((response) => response.json())
+      .then((data) => setAgents(data))
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {

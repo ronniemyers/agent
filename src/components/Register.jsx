@@ -10,7 +10,6 @@ function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  let isSuccess = false;
 
   const auth = useContext(AuthContext);
 
@@ -41,7 +40,6 @@ function Register() {
     fetch("http://localhost:5000/create_account", init)
       .then((response) => {
         if (response.status === 201) {
-          isSuccess = true;
           return response.json();
         } else if (response.status === 400) {
           return response.json();
@@ -49,7 +47,7 @@ function Register() {
         return Promise.reject("Something unexpected went wrong");
       })
       .then((data) => {
-        if (isSuccess) {
+        if (data.id) {
           const init = {
             method: "POST",
             headers: {
