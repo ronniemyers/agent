@@ -29,7 +29,6 @@ function App() {
   }, []);
 
   const login = (token) => {
-    console.log(token);
     localStorage.setItem(TOKEN_KEY, token);
     const tokenObj = jwt_decode(token);
     console.log(tokenObj);
