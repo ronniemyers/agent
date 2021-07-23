@@ -35,7 +35,7 @@ function AddAgent() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${auth.user.token}`
+        Authorization: `Bearer ${auth.user.token}`,
       },
       body: JSON.stringify(formAgent),
     };

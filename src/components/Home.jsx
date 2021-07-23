@@ -1,18 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import Header from "./Header";
 import NavBar from "./NavBar";
 
 function Home() {
-  const [, setAgents] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:8080/api/agent")
-      .then((response) => response.json())
-      .then((data) => setAgents(data))
-      .catch((error) => console.log(error));
-  }, []);
-
   return (
     <div>
       <div className="grid-container">

@@ -1,9 +1,10 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Header from "./Header";
 import NavBar from "./NavBar";
-import AuthContext from '../AuthContext';
+import AuthContext from "../AuthContext";
+import Error from "./Error";
 
 const DEFAULT_BUTTON = {
   deleteBtn: "Delete",
@@ -13,19 +14,44 @@ const DEFAULT_BUTTON = {
 function DeleteAgent() {
   const auth = useContext(AuthContext);
   const { id } = useParams();
-  let agentData = {};
   const [agents, setAgents] = useState([]);
   const [deleteMsg, setDeleteMsg] = useState("Are you sure?");
   const [defaultBtn, setDefaultBtn] = useState(DEFAULT_BUTTON);
+  const [errors, setErrors] = useState([]);
 
-  const deleteAgentConfirmHandler = (event) => {
-    event.preventDefault();
+  const getAgent = () => {
+    const init = {
+      headers: {
+        Authorization: `Bearer ${auth.user.token}`,
+      },
+    };
 
+    fetch(`http://localhost:8080/api/agent/${id}`, init)
+      .then((response) => {
+        if (response.status === 200) {
+          const filter = response.json();
+          return filter;
+        } else {
+          return Promise.reject("Something unexpected went wrong");
+        }
+      })
+      .then((data) => {
+        if (data.agentId) {
+          setAgents(data);
+        } else {
+          setErrors(["Failed to fetch user..."]);
+        }
+      });
+  };
+
+  getAgent();
+
+  const deleteAgentConfirmHandler = () => {
     const init = {
       method: "DELETE",
       headers: {
-        'Authorization': `Bearer ${auth.user.token}`
-      }
+        Authorization: `Bearer ${auth.user.token}`,
+      },
     };
 
     fetch(`http://localhost:8080/api/agent/${id}`, init)
@@ -33,7 +59,7 @@ function DeleteAgent() {
         if (response.status === 204) {
           return response.json;
         } else if (response.status === 404) {
-          Promise.reject(`Agent ID ${id} not found`);
+          Promise.reject(`Agent ID ${id} is not found`);
         } else {
           Promise.reject("Something unexpected went wrong");
         }
@@ -82,6 +108,34 @@ function DeleteAgent() {
               </div>
             </div>
           </main>
+          <section>
+            <div className="item2">
+              {agents.map((agent) => {
+                return (
+                  <div key={agent.agentId}>
+                    <div className="flex-container">
+                      <div className="data">
+                        <p>{agent.agentId}</p>
+                        <p className="field">First name</p>
+                        <p>{agent.firstName}</p>
+                        <p className="field">Middle name</p>
+                        <p>{agent.middleName}</p>
+                        <p className="field">Last name</p>
+                        <p>{agent.lastName}</p>
+                        <p className="field">Date of birth</p>
+                        <p>{agent.dob}</p>
+                        <p className="field">Height (inches)</p>
+                        <p>{agent.heightInInches}</p>
+                        <p className="field">Aliases</p>
+                        <p>{agent.aliases}</p>
+                      </div>
+                      <Error errors={errors} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
           <nav>
             <NavBar />
           </nav>
