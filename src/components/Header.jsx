@@ -10,7 +10,7 @@ function Header() {
       <div className="flex-container">
         <Link to="/">home</Link>
       </div>
-      <p className="text-center username">{auth.user ? "Username [" + auth.user.username + "]" : 
+      <p className="text-center username">{auth.user ? "[" + auth.user.username + "]" : 
       ""}</p>
     </div>
   );

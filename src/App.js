@@ -13,7 +13,7 @@ import EditAgent from './components/EditAgent';
 import DeleteAgent from './components/DeleteAgent';
 import NotFound from './components/NotFound';
 
-const TOKEN_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZXYxMC11c2Vycy1hcGkiLCJzdWIiOiJqb2huQHNtaXRoLmNvbSIsImlkIjoiOTgzZjEyMjQtYWY0Zi0xMWViLTgzNjgtMDI0MmFjMTEwMDAyIiwicm9sZXMiOiJBRE1JTiIsImV4cCI6MTYyNjk5NDc3MH0.aJm49OiDVFOTXoQreU1vH4PIUyOfeSWCvGowr767CrY";
+const TOKEN_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZXYxMC11c2Vycy1hcGkiLCJzdWIiOiJyb25uaWVteWVycyIsImlkIjoiYzMxZDM0YzQtYjY5YS00ZDU4LWFlNmItYmU0ZjE2YzcyNzQyIiwicm9sZXMiOiJVU0VSIiwiZXhwIjoxNjI3MDA3NTYxfQ.FL0fLYpDX2jKU00lfx3jzXMdBJYTFs85QNuzxccVa3k";
 
 
 function App() {
@@ -32,7 +32,6 @@ function App() {
   const login = (token) => {
     console.log(token);
     localStorage.setItem(TOKEN_KEY, token);
-
     const tokenObj = jwt_decode(token);
     console.log(tokenObj);
     const { id, sub: username, roles: rolesString } = jwt_decode(token);
@@ -48,7 +47,6 @@ function App() {
       }
     };
 
-    console.log(user);
     setUser(user);
     return user;
   };
@@ -59,7 +57,7 @@ function App() {
   };
 
   const auth = {
-    user: user ? { ...user } : null,
+    user: user ? { ...user } : "",
     login,
     logout
   };

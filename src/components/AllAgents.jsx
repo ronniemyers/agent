@@ -11,11 +11,6 @@ function AllAgents() {
   const auth = useContext(AuthContext);
 
   const getAgents = (token) => {
-    /*
-    GET http://localhost:8080/api/agent HTTP/1.1
-    Authorization: Bearer {{token}}
-    
-    */
 
     const init = {
       headers: {

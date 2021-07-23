@@ -1,7 +1,6 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../AuthContext";
-import Error from "./Error";
 
 function NavBar() {
   const auth = useContext(AuthContext);
@@ -29,7 +28,7 @@ function NavBar() {
           <Link to="/add" className="btn">
             <i>Add Agents</i>
           </Link>
-          <Link to="/login" className="btn">
+          <Link to="/login" className="btn" onClick={() => auth.logout()}>
             <i>Logout</i>
           </Link>
         </div>
