@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
 import AuthContext from './AuthContext';
 import Home from './components/Home';
-import Register from './components/Register';
-import Login from './components/Login';
-import AddAgent from './components/AddAgent';
-import AllAgents from './components/AllAgents';
-import EditAgent from './components/EditAgent';
-import DeleteAgent from './components/DeleteAgent';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import AddAgent from './components/agent/AddAgent';
+import AllAgents from './components/agent/AllAgents';
+import EditAgent from './components/agent/EditAgent';
+import DeleteAgent from './components/agent/DeleteAgent';
 import NotFound from './components/utils/NotFound';
 
 const TOKEN_KEY = "api_user_token";

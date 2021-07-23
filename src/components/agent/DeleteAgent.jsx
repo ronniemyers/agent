@@ -1,10 +1,9 @@
-import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import Header from "./utils/Header";
-import NavBar from "./utils/NavBar";
-import AuthContext from "../AuthContext.js";
-import MapAgent from "./utils/MapAgent";
+import Header from "../utils/Header";
+import NavBar from "../utils/NavBar";
+import AuthContext from "../../AuthContext.js";
+import MapAgent from "../utils/MapAgent";
 
 const DEFAULT_BUTTON = {
   deleteBtn: "Delete",

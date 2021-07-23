@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../AuthContext";
-import RefreshToken from "./RefreshToken";
+import RefreshToken from "../auth/RefreshToken";
 
 function Header() {
   const auth = useContext(AuthContext);

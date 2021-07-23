@@ -1,10 +1,8 @@
-import React from "react";
 import { useState, useEffect, useContext } from "react";
-import Header from "./utils/Header";
-import NavBar from "./utils/NavBar";
-import AuthContext from "../AuthContext.js";
-import MapAgent from "./utils/MapAgent";
-import RefreshToken from "./utils/RefreshToken";
+import Header from "../utils/Header";
+import NavBar from "../utils/NavBar";
+import AuthContext from "../../AuthContext.js";
+import MapAgent from "../utils/MapAgent";
 
 function AllAgents() {
   const [agents, setAgents] = useState([]);

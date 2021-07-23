@@ -1,5 +1,3 @@
-import React from "react";
-
 function Error({ errors = [] }) {
   if (errors.length === 0) {
     return null;

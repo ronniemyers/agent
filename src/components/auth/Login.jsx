@@ -1,18 +1,17 @@
 import { useState, useContext } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import AuthContext from "../AuthContext.js";
-import NavBar from "./utils/NavBar";
-import Error from "./utils/Error";
-import Header from "./utils/Header";
+import { useHistory } from "react-router-dom";
+import Error from "../utils/Error";
+import Header from "../utils/Header";
+import AuthContext from "../../AuthContext.js";
+import NavBar from "../utils/NavBar";
 
-function Register() {
+function Login() {
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
   const auth = useContext(AuthContext);
-
   const usernameOnChangeHandler = (event) => {
     setUsername(event.target.value);
   };
@@ -37,45 +36,22 @@ function Register() {
       body: JSON.stringify(authAttempt),
     };
 
-    fetch("http://localhost:5000/create_account", init)
+    fetch("http://localhost:5000/authenticate", init)
       .then((response) => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           return response.json();
-        } else if (response.status === 400) {
-          return response.json();
+        } else if (response.status === 403) {
+          return null;
         }
         return Promise.reject("Something unexpected went wrong");
       })
       .then((data) => {
-        if (data.id) {
-          const init = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(authAttempt),
-          };
-
-          fetch("http://localhost:5000/authenticate", init)
-            .then((response) => {
-              if (response.status === 200) {
-                return response.json();
-              } else if (response.status === 403) {
-                return null;
-              }
-              return Promise.reject("Something unexpected went wrong");
-            })
-            .then((data) => {
-              if (data) {
-                auth.login(data.jwt_token);
-                history.push("/");
-              } else {
-                history.push("/login");
-              }
-            })
-            .catch((error) => console.log(error));
+        if (data) {
+          auth.login(data.jwt_token);
+          auth.refresh();
+          history.push("/");
         } else {
-          setErrors("Error: " + data.messages + " ");
+          setErrors(["Login failed, try again."]);
         }
       })
       .catch((error) => console.log(error));
@@ -87,7 +63,7 @@ function Register() {
         <header>
           <div className="item1">
             <Header />
-            <h1>Register</h1>
+            <h1>Login</h1>
           </div>
         </header>
         <div>
@@ -117,7 +93,7 @@ function Register() {
                   />
                 </div>
                 <div className="form-agent flex-container">
-                  <input type="submit" value="Register"></input>
+                  <input type="submit" value="Login"></input>
                 </div>
               </form>
             </div>
@@ -137,4 +113,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

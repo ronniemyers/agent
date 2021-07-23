@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import Error from "./utils/Error";
-import Header from "./utils/Header";
-import NavBar from "./utils/NavBar";
-import AuthContext from "../AuthContext.js";
+import Error from "../utils/Error";
+import Header from "../utils/Header";
+import NavBar from "../utils/NavBar";
+import AuthContext from "../../AuthContext.js";
 
 const DEFAULT_FORM_AGENT = {
   agentId: 0,
