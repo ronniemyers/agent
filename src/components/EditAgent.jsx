@@ -33,7 +33,7 @@ function EditAgent() {
     fetch(`http://localhost:8080/api/agent/${id}`, init)
       .then((response) => {
         if (response.status === 404) {
-          return Promise.reject(`Received 404 Not Found for Agent ID: ${id}`);
+          return Promise.reject(`404 not found for agent ID: ${id}`);
         }
         return response.json();
       })
