@@ -1,18 +1,38 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import NavBar from "./NavBar";
+import AuthContext from '../AuthContext';
+
 
 function AllAgents() {
   const [agents, setAgents] = useState([]);
+  const auth = useContext(AuthContext);
+
+  const getAgents = (token) => {
+    /*
+    GET http://localhost:8080/api/agent HTTP/1.1
+    Authorization: Bearer {{token}}
+    */
+
+    const init = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }
+
+    fetch('http://localhost:8080/api/agent', init)
+      .then(response => response.json())
+      .then(data => setAgents(data))
+      .catch(error => console.log(error));
+  };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/agent")
-      .then((response) => response.json())
-      .then((data) => setAgents(data))
-      .catch((error) => console.log(error));
-  }, []);
+    getAgents(auth.user.token);
+  }, [auth.user.token]);
+
+  console.log(auth.user.token);
 
   return (
     <div>

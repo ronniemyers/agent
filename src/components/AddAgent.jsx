@@ -38,7 +38,9 @@ function AddAgent() {
 
     fetch("http://localhost:8080/api/agent", init)
       .then((response) => {
-        if (response.status === 201 || response.status === 400) {
+        if (response.status === 201) {
+          return response.json();
+        } else if (response.status === 400) {
           return response.json();
         }
         return Promise.reject("Something unexpected went wrong");

@@ -1,35 +1,61 @@
 import React from "react";
 import { useState, useContext } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Error from "./Error";
 import Header from "./Header";
-import AuthContext from '../AuthContext';
+import AuthContext from "../AuthContext";
 import NavBar from "./NavBar";
-
-const DEFAULT_FORM_AGENT = {
-  agentId: 0,
-  username: "",
-  password: "",
-};
 
 function Login() {
   const history = useHistory();
-  const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
   const auth = useContext(AuthContext);
 
-  const formInputOnChangeHandler = (event) => {
-    const nextAgent = { ...formAgent };
-    nextAgent[event.target.name] = event.target.value;
-    setFormAgent(nextAgent);
+  const usernameOnChangeHandler = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const passwordOnChangeHandler = (event) => {
+    setPassword(event.target.value);
   };
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    history.push("/");
+
+    const authAttempt = {
+      username,
+      password,
+    };
+
+    const init = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(authAttempt),
+    };
+
+    fetch("http://localhost:5000/authenticate", init)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 403) {
+          return null;
+        }
+        return Promise.reject("Something unexpected went wrong");
+      })
+      .then((data) => {
+        if (data) {
+          auth.login(data.jwt_token);
+          history.push("/");
+        } else {
+          setErrors(["Login failed, try again."]);
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -52,8 +78,8 @@ function Login() {
                     type="text"
                     id="username"
                     name="username"
-                    value={formAgent.username}
-                    onChange={formInputOnChangeHandler}
+                    value={username}
+                    onChange={usernameOnChangeHandler}
                   />
                 </div>
                 <div className="form-agent">
@@ -63,8 +89,8 @@ function Login() {
                     type="password"
                     id="password"
                     name="password"
-                    value={formAgent.password}
-                    onChange={formInputOnChangeHandler}
+                    value={password}
+                    onChange={passwordOnChangeHandler}
                   />
                 </div>
                 <div className="form-agent flex-container">
@@ -75,7 +101,7 @@ function Login() {
             <Error errors={errors} />
           </main>
           <nav>
-            <NavBar/>
+            <NavBar />
           </nav>
           <footer>
             <div className="item4">

@@ -24,8 +24,8 @@ function EditAgent() {
   useEffect(() => {
     fetch(`http://localhost:8080/api/agent/${id}`)
       .then((response) => {
-        if (response.status === 404) {
-          return Promise.reject(`Received 404 Not Found for Agent ID: ${id}`);
+        if (response.status === 400) {
+          return Promise.reject(`Received 400 Agent ID: ${id}`);
         }
         return response.json();
       })
@@ -49,9 +49,7 @@ function EditAgent() {
 
     fetch(`http://localhost:8080/api/agent/${id}`, init)
       .then((response) => {
-        if (response.status === 204) {
-          return null;
-        } else if (response.status === 400) {
+        if (response.status === 400) {
           return response.json();
         }
         return Promise.reject("Something unexpected went wrong");
@@ -152,7 +150,7 @@ function EditAgent() {
             <Error errors={errors} />
           </main>
           <nav>
-            <NavBar/>
+            <NavBar />
           </nav>
           <footer>
             <div className="item4">

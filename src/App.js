@@ -13,7 +13,8 @@ import EditAgent from './components/EditAgent';
 import DeleteAgent from './components/DeleteAgent';
 import NotFound from './components/NotFound';
 
-const TOKEN_KEY = 'user-api-token';
+const TOKEN_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZXYxMC11c2Vycy1hcGkiLCJzdWIiOiJqb2huQHNtaXRoLmNvbSIsImlkIjoiOTgzZjEyMjQtYWY0Zi0xMWViLTgzNjgtMDI0MmFjMTEwMDAyIiwicm9sZXMiOiJBRE1JTiIsImV4cCI6MTYyNjk5NDc3MH0.aJm49OiDVFOTXoQreU1vH4PIUyOfeSWCvGowr767CrY";
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,14 +33,6 @@ function App() {
   const login = (token) => {
     console.log(token);
     localStorage.setItem(TOKEN_KEY, token);
-
-    // {
-    //   "iss": "dev10-users-api",
-    //   "sub": "john@smith.com",
-    //   "id": "983f1224-af4f-11eb-8368-0242ac110002",
-    //   "roles": "ADMIN",
-    //   "exp": 1620495306
-    // }
 
     const tokenObj = jwt_decode(token);
     console.log(tokenObj);
@@ -67,7 +60,7 @@ function App() {
   };
 
   const auth = {
-    user: user ? { ...user } : "Sam",
+    user: user ? { ...user } : null,
     login,
     logout
   };
@@ -90,16 +83,32 @@ function App() {
             <Login />
           </Route>
           <Route exact path="/agents">
-            <AllAgents />
+            {user ? (
+              <AllAgents />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path="/add">
-            <AddAgent />
+            {user ? (
+              <AddAgent />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path="/edit/:id">
-            <EditAgent />
+            {user ? (
+              <EditAgent />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path="/delete/:id">
-            <DeleteAgent />
+            {user ? (
+              <DeleteAgent />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route path="*">
             <NotFound />

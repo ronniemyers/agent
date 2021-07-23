@@ -20,7 +20,7 @@ function NavBar() {
         <Link to="/add" className="btn">
           <i>Add Agents</i>
         </Link>
-        {!auth && (
+        {!auth.user && (
           <div>
             <Link to="/register" className="btn">
               <i>Register</i>
@@ -30,7 +30,7 @@ function NavBar() {
             </Link>
           </div>
         )}
-        {auth && (
+        {auth.user && (
           <div>
             <div>
               <Link to="/login" className="btn">
