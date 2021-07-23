@@ -1,6 +1,5 @@
-import React from 'react';
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, useParams } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
 import AuthContext from './AuthContext';

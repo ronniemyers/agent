@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Error from "./utils/Error";
 import Header from "./utils/Header";
 import AuthContext from "../AuthContext.js";
@@ -13,7 +13,6 @@ function Login() {
   const [errors, setErrors] = useState([]);
 
   const auth = useContext(AuthContext);
-
   const usernameOnChangeHandler = (event) => {
     setUsername(event.target.value);
   };
@@ -50,6 +49,7 @@ function Login() {
       .then((data) => {
         if (data) {
           auth.login(data.jwt_token);
+          auth.refresh();
           history.push("/");
         } else {
           setErrors(["Login failed, try again."]);

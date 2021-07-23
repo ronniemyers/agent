@@ -20,6 +20,7 @@ function AddAgent() {
   const auth = useContext(AuthContext);
   const history = useHistory();
   const [errors, setErrors] = useState([]);
+  const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
 
   const formInputOnChangeHandler = (event) => {
     const nextAgent = { ...formAgent };
@@ -27,7 +28,6 @@ function AddAgent() {
     setFormAgent(nextAgent);
   };
 
-  const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
   const addFormSubmitHandler = (event) => {
     event.preventDefault();
 

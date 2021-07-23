@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "./utils/Header";
 import NavBar from "./utils/NavBar";
 
@@ -8,7 +7,7 @@ function Home() {
       <div className="grid-container">
         <header>
           <div className="item1">
-            <Header/>
+            <Header />
             <h1>Home</h1>
             <div className="text-center">
               <a href="https://www.fieldagent.net/">
@@ -28,10 +27,9 @@ function Home() {
         </header>
         <div>
           <main></main>
+          <nav></nav>
           <nav>
-          </nav>
-          <nav>
-            <NavBar/>
+            <NavBar />
           </nav>
           <footer>
             <div className="item4">
