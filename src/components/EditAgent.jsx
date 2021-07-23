@@ -69,7 +69,7 @@ function EditAgent() {
         if (!data) {
           history.push("/agents");
         } else {
-          setErrors(data);
+          setErrors("Error: " + data + " ");
         }
       })
       .catch((error) => console.log(error));
