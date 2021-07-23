@@ -13,7 +13,7 @@ import EditAgent from './components/EditAgent';
 import DeleteAgent from './components/DeleteAgent';
 import NotFound from './components/NotFound';
 
-const TOKEN_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZXYxMC11c2Vycy1hcGkiLCJzdWIiOiJyb25uaWVteWVycyIsImlkIjoiYzMxZDM0YzQtYjY5YS00ZDU4LWFlNmItYmU0ZjE2YzcyNzQyIiwicm9sZXMiOiJVU0VSIiwiZXhwIjoxNjI3MDA3NTYxfQ.FL0fLYpDX2jKU00lfx3jzXMdBJYTFs85QNuzxccVa3k";
+const TOKEN_KEY = "api_user_token";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -70,7 +70,11 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Home />
+            {user ? (
+              <Home />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path="/register">
             <Register />

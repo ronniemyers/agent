@@ -17,7 +17,7 @@ function DeleteAgent() {
   const [agents, setAgents] = useState([]);
   const [deleteMsg, setDeleteMsg] = useState("Are you sure?");
   const [defaultBtn, setDefaultBtn] = useState(DEFAULT_BUTTON);
-  const [errors, setErrors] = useState([]);
+  const [errors,] = useState([]);
 
   useEffect(() => {
     const init = {
