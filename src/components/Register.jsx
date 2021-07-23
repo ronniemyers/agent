@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import AuthContext from "../AuthContext";
-import NavBar from "./NavBar";
-import Error from "./Error";
-import Header from "./Header";
+import AuthContext from "../AuthContext.js";
+import NavBar from "./utils/NavBar";
+import Error from "./utils/Error";
+import Header from "./utils/Header";
 
 function Register() {
   const history = useHistory();

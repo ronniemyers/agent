@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import Error from "./Error";
-import Header from "./Header";
-import NavBar from "./NavBar";
-import AuthContext from "../AuthContext";
+import Error from "./utils/Error";
+import Header from "./utils/Header";
+import NavBar from "./utils/NavBar";
+import AuthContext from "../AuthContext.js";
 
 const DEFAULT_FORM_AGENT = {
   agentId: 0,
@@ -57,7 +57,7 @@ function EditAgent() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${auth.user.token}`
+        Authorization: `Bearer ${auth.user.token}`,
       },
       body: JSON.stringify(formAgent),
     };

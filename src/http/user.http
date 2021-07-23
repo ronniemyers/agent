@@ -3,13 +3,15 @@
 @host = {{hostname}}:{{port}}
 @baseurl = http://{{host}}
 
+@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZXYxMC11c2Vycy1hcGkiLCJzdWIiOiJqb2huQHNtaXRoLmNvbSIsImlkIjoiOTgzZjEyMjQtYWY0Zi0xMWViLTgzNjgtMDI0MmFjMTEwMDAyIiwicm9sZXMiOiJBRE1JTiIsImV4cCI6MTYyNzAwMTE1NX0.A8etGkm8QIyZDYehTN1Qf0ydpCT0beNeY5TVBx16y4U
+
 ### create a new user account
 POST {{baseurl}}/create_account HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "ronniemyers",
-  "password": "$$halloween9"
+  "username": "ronnie",
+  "password": "$halloween9"
 }
 
 ### authenticate an existing user
@@ -17,8 +19,8 @@ POST {{baseurl}}/authenticate HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "ronniemyers",
-    "password": "$$halloween9"
+    "username": "ronnie",
+    "password": "$halloween9"
 }
 
 ### refresh a non-expired token
@@ -26,5 +28,5 @@ POST http://localhost:5000/refresh_token HTTP/1.1
 Content-Type: application/json
 
 {
-  "jwt_token": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZXYxMC11c2Vycy1hcGkiLCJzdWIiOiJqb2huQHNtaXRoLmNvbSIsImlkIjoiOTgzZjEyMjQtYWY0Zi0xMWViLTgzNjgtMDI0MmFjMTEwMDAyIiwicm9sZXMiOiJBRE1JTiIsImV4cCI6MTYyMDQyODA5NX0.HrFalpusNo88aNCJXYtrGp5gOGMvinEQXI1QPstw-2M"
+  "jwt_token": "{{token}}"
 }

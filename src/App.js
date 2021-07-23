@@ -11,7 +11,7 @@ import AddAgent from './components/AddAgent';
 import AllAgents from './components/AllAgents';
 import EditAgent from './components/EditAgent';
 import DeleteAgent from './components/DeleteAgent';
-import NotFound from './components/NotFound';
+import NotFound from './components/utils/NotFound';
 
 const TOKEN_KEY = "api_user_token";
 

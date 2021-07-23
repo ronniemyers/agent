@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Error from "./Error";
-import Header from "./Header";
-import NavBar from "./NavBar";
+import Error from "./utils/Error";
+import Header from "./utils/Header";
+import NavBar from "./utils/NavBar";
 import AuthContext from "../AuthContext";
 
 const DEFAULT_FORM_AGENT = {
