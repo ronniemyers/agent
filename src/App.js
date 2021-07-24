@@ -11,6 +11,7 @@ import AllAgents from './components/agent/AllAgents';
 import EditAgent from './components/agent/EditAgent';
 import DeleteAgent from './components/agent/DeleteAgent';
 import NotFound from './components/utils/NotFound';
+import RefreshToken from './components/auth/RefreshToken';
 
 const TOKEN_KEY = "api_user_token";
 
@@ -29,8 +30,6 @@ function App() {
 
   const login = (token) => {
     localStorage.setItem(TOKEN_KEY, token);
-    const tokenObj = jwt_decode(token);
-    console.log(tokenObj);
     const { id, sub: username, roles: rolesString } = jwt_decode(token);
     const roles = rolesString.split(',');
 
@@ -53,10 +52,16 @@ function App() {
     setUser(null);
   };
 
+  const refresh = (data) => {
+    
+    <RefreshToken payload={data} />
+  }
+
   const auth = {
     user: user ? { ...user } : null,
     login,
-    logout
+    logout,
+    refresh
   };
 
   if (!initialized) {

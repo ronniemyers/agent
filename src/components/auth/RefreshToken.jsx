@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import AuthContext from "../../AuthContext";
 import jwt_decode from "jwt-decode";
 
-function RefreshToken() {
+function RefreshToken({payload}) {
   const history = useHistory();
   const auth = useContext(AuthContext);
   const tokenObj = jwt_decode(auth.user.token);
@@ -15,7 +15,7 @@ function RefreshToken() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: tokenObj,
+      body: JSON.stringify(payload),
     };
 
     fetch(`http://localhost:5000/refresh_token`, init)

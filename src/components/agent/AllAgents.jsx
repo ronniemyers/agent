@@ -9,6 +9,8 @@ function AllAgents() {
   const [errors] = useState([]);
   const auth = useContext(AuthContext);
 
+  console.log(auth.refresh);
+
   const getAgents = (token) => {
     const init = {
       headers: {

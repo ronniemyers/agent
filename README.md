@@ -5,7 +5,7 @@
 - [x] Part 0 (30min)
 - [x] Part 1 (5 hours)
 - [x] Part 2 (6 hours)
-- [ ] Part 3 (4 hours)
+- [x] Part 3 (4 hours)
 
 ### Part 0: Set Up and Planning
 
@@ -56,10 +56,10 @@
 
 ### Part 3: Fetch API (Weekend)
 
-- [ ] Use the Fetch API to send all CRUD operations to the back-end data service.
-- [ ] Display all API validation errors in the React UI.
-- [ ] Use the provided test plan to manually test the application
-- [ ] Create a pull request in GitHub to facilitate code review
+- [x] Use the Fetch API to send all CRUD operations to the back-end data service.
+- [x] Display all API validation errors in the React UI.
+- [x] Use the provided test plan to manually test the application
+- [x] Create a pull request in GitHub to facilitate code review
 
 ## Technical Requirements
 

@@ -48,7 +48,7 @@ function Login() {
       .then((data) => {
         if (data) {
           auth.login(data.jwt_token);
-          auth.refresh();
+          auth.refresh(data);
           history.push("/");
         } else {
           setErrors(["Login failed, try again."]);
