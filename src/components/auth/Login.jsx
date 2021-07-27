@@ -1,32 +1,60 @@
-import React from "react";
-import { useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import Error from "./Error";
-import { LogoSvg } from "./svg/LogoSvg";
-import NavBar from "./NavBar";
-
-const DEFAULT_FORM_AGENT = {
-  agentId: 0,
-  username: "",
-  password: "",
-};
+import { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import Error from "../utils/Error";
+import Header from "../utils/Header";
+import AuthContext from "../../AuthContext.js";
+import NavBar from "../utils/NavBar";
 
 function Login() {
-  // const history = useHistory();
-  const [formAgent, setFormAgent] = useState(DEFAULT_FORM_AGENT);
+  const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
-  const formInputOnChangeHandler = (event) => {
-    const nextAgent = { ...formAgent };
-    nextAgent[event.target.name] = event.target.value;
-    setFormAgent(nextAgent);
+  const auth = useContext(AuthContext);
+  const usernameOnChangeHandler = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const passwordOnChangeHandler = (event) => {
+    setPassword(event.target.value);
   };
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    //   history.push("/");
+
+    const authAttempt = {
+      username,
+      password,
+    };
+
+    const init = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(authAttempt),
+    };
+
+    fetch("http://localhost:5000/authenticate", init)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 403) {
+          return null;
+        }
+        return Promise.reject("Something unexpected went wrong");
+      })
+      .then((data) => {
+        if (data) {
+          auth.login(data.jwt_token);
+          auth.refresh(data);
+          history.push("/");
+        } else {
+          setErrors(["Login failed, try again."]);
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -34,12 +62,7 @@ function Login() {
       <div className="grid-container">
         <header>
           <div className="item1">
-            <div className="flex-container">
-              <Link to="/">
-                <LogoSvg />
-              </Link>
-            </div>
-            <p className="text-center username"> Username [citadelhell]</p>
+            <Header />
             <h1>Login</h1>
           </div>
         </header>
@@ -54,8 +77,8 @@ function Login() {
                     type="text"
                     id="username"
                     name="username"
-                    value={formAgent.username}
-                    onChange={formInputOnChangeHandler}
+                    value={username}
+                    onChange={usernameOnChangeHandler}
                   />
                 </div>
                 <div className="form-agent">
@@ -65,8 +88,8 @@ function Login() {
                     type="password"
                     id="password"
                     name="password"
-                    value={formAgent.password}
-                    onChange={formInputOnChangeHandler}
+                    value={password}
+                    onChange={passwordOnChangeHandler}
                   />
                 </div>
                 <div className="form-agent flex-container">

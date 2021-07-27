@@ -436,7 +436,7 @@ textarea {
     transform: translate(-50%, -50%) scale(0.75);
     top: 50%;
     left: 50%;
-    width: 40%;
+    width: 50%;
     background: var(--background-color);
     padding: 30px;
     position: absolute;
@@ -480,6 +480,10 @@ textarea {
     }
 }
 
+.exit {
+    margin-left: 4rem;
+}
+
 .text-center {
     text-align: center;
 }
@@ -490,7 +494,7 @@ textarea {
 
 .errorMsg {
     margin: 1rem;
-    padding:2rem;
+    padding: 2rem;
     line-height: 2.4rem;
     text-align: center;
 }
