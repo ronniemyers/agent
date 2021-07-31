@@ -39,9 +39,7 @@ function Register() {
 
     fetch("http://localhost:5000/create_account", init)
       .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        } else if (response.status === 400) {
+        if (response.status === 201 || 400) {
           return response.json();
         }
         return Promise.reject("Something unexpected went wrong");
